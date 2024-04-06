@@ -98,6 +98,7 @@
                             L.marker(latlng).addTo(map).bindPopup(ip).openPopup();
                             // Draw polyline
                             polyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
+                            map.fitBounds(polyline.getBounds());
                         } else {
                             console.log("No location data for: " + ip);
                         }
