@@ -75,14 +75,23 @@
                     }
                 });
     
+                // Clear previous polyline
+                if (polyline) {
+                    map.removeLayer(polyline);
+                }
+
                 // Add markers for each IP address
+                var latlngs = [];
                 ipAddresses.forEach(function (ip) {
                     $.getJSON('https://ipinfo.io/' + ip + '/geo', function (data) {
                         console.log("Received: " + ip);
                         var loc = data.loc;
                         if (loc) {
                             var latlng = loc.split(',').map(parseFloat);
+                            latlngs.push(latlng);
                             L.marker(latlng).addTo(map).bindPopup(ip).openPopup();
+                            // Draw polyline
+                            polyline = L.polyline(latlngs, {color: 'blue'}).addTo(map);
                         } else {
                             console.log("No location data for: " + ip);
                         }
